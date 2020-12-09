@@ -1,7 +1,8 @@
 # IoTSmartWindow
 IoT 클라우드 플랫폼 - 기말 과제
 
-
+IoTSmartWindow 프로젝트는 사물인터넷과 자동 제어를 접목한 시스템으로,
+Arduino ,IoT 벡엔드, Amazon API Gateway와 Javascript(html)이 상호작용하며 구현되는 창문 자동 제어 시스템이다.
 
 
 
