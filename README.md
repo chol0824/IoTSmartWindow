@@ -3,13 +3,19 @@ IoT 클라우드 플랫폼 - 기말 과제
 
 
 
+
+
 IoTSmartWindow 미세먼지 농도와 실내 온도에 따라 창문 열기/닫기를 자동으로 제어합니다. 외출하거나 화상강의 등으로 인해 직접 창문을 닫기 힘든 상황일 때 웹 애플리케이션을 통해 수동제어로 창문 열기/닫기가 가능합니다. 집 실외에 미세먼지 측정 센서가 부착되어있고, 실내에는 온습도 센서가 부착되어 있어서 실시간으로 미세먼지 농도와 온습도를 측정하여 AWS DynamoDB에 저장합니다. 웹 애플리케이션에서는 현재 우리 집의 상태 조회(창문 제어상태(자동/수동), 창문 상태(열림/닫힘), 온도, 습도, 미세먼지 농도)가 가능하고, 특정 기간을 입력하면 해당 기간의 우리집 상태 로그를 확인할 수 있으며, 창문 자동제어, 수동제어 버튼을 눌러서 창문 상태(열림/닫힘)을 제어할 수 있습니다.
+
+
 
 
 
 IoT 디바이스: Arduino MKR WiFi 1010
 
 사용한 센서: 온습도 센서, 미세먼지 측정 센서, 서보모터(창문 열기/닫기 제어), 3색LED(미세먼지 상태 표시)
+
+
 
 
 
@@ -23,14 +29,18 @@ IoT 디바이스: Arduino MKR WiFi 1010
 
 
 
+
+
 <IoT 백엔드 - AWS 서비스>
   1. AWS Lambda
     - 자바 코드를 AWS로 업로드 할 수 있음
     - 실행시킬 때 JSON 형식 사용
 
+
   2. AMazon DynamoDB
     - (키-값) 문서 저장
     - IoTSmartWindow에서 측정한 센서값, 창문제어 상태, 창문 상태 데이터 저장
+
 
   3. API GateWay - API 관리함
     - REST API: 클라이언트 - 서버 통신 지원
@@ -49,6 +59,8 @@ IoT 디바이스: Arduino MKR WiFi 1010
 
       - 자원의 표현
         - 클라이언트와 서버가 데이터를 주고받는 형태(ex. json)
+
+
 
 
 
@@ -87,6 +99,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
     4) 시리얼 모니터로 와이파이, MQTT 연결 확인, 센서 측정값 확인
 
 
+
 2. AWS 자격증명: 자바에서 AWS Lambda를 사용하기 위한 인증(사용자이름: SmartWindow)
 	- 자격증명 설정
 		1) IAM - 사용자 - 사용자 추가
@@ -100,6 +113,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 			apply and close - yes
       
 
+
 3. IAM role 만들기(IAM role이름: lambda_basic_execution_role_iot_access)
 	- 역할 만들기
 		1) IAM - 역할 - 역할 만들기
@@ -112,12 +126,14 @@ IoT 디바이스: Arduino MKR WiFi 1010
       역할 이름: lambda_basic_execution_with_DynamoDB
 
 
+
 4. DynamoDB(DynamoDB에 아두이노 센서값, 창문제어 상태, 창문 상태 저장)
 	- 테이블 만들기
 		1) DynamoDB - 테이블 만들기
 			테이블 이름: IoTSmartWindowData
 			기본 키: time	번호
 			생성
+
 
 
 5.  AWS Lambda 함수(DynamoDB에 아두이노 센서값 저장하는 람다 함수)
@@ -153,6 +169,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 		*참고) Cloud Watch - 로그 그룹 - 람다함수 선택 - 로그 스트림 클릭하면 자바에서 AWS로 보낸 메시지 확인 가능
 
 
+
 6. AWS IoT Rule
 	- 규칙 만들기
 		1) AWS IoT - 동작 - 규칙 - 생성
@@ -162,6 +179,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 		3) 아두이노 실행시키고 시리얼 모니터로 메시지 보내지고 있는지 확인
 		4) DynamoDB - IoTSmartWindowData - 항목에서 확인
     
+
 
 7. 디바이스 목록조회 REST API
 	- Lambda 함수 만들기
@@ -189,6 +207,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 		1) 우클릭 - AWS Lambda - Run function on AWS Lambda
 			Enter the JSON input for your function: 아무것도 입력 안 함
 		2) Console창에 디바이스 목록 뜨는지 확인
+
 
 
 8. 디바이스 상세조회 REST API
@@ -220,6 +239,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 			    "device" : "IoTSmartWindow"
 			}
 		2) Console창에 디바이스 목록 뜨는지 확인
+
 
 
 9. 디바이스 상태변경 REST API
@@ -263,6 +283,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 		2) Console창에 디바이스 목록 뜨는지 확인
 
 
+
 10. 디바이스 로그조회 REST API
 	- Lambda 함수 만들기
 		1) 이클립스 - 주황색 박스 아이콘 클릭 - New AWS Lambda Java Project
@@ -290,6 +311,7 @@ IoT 디바이스: Arduino MKR WiFi 1010
 			Enter the JSON input for your function:
 			{ "device": "IoTSmartWindowData", "from":"2020-12-07 00:00:00", "to": "2020-12-07 18:00:00"}  
 		2) Console창에 디바이스 목록 뜨는지 확인
+
 
 
 11. API Gateway 만들기
@@ -433,12 +455,15 @@ IoT 디바이스: Arduino MKR WiFi 1010
 			URL/devices/IoTSmartWindowData/log?from=2020-12-07 00:00:00&to=2020-12-07 18:00:00
 
 
+
 12. 웹 애플리케이션 만들기
   - HTML, js파일 만들기
       1) IoTSmartWindow.html  → 웹 페이지
       2) get_devices.js       → 디바이스 상태 조회
       3) update_device.js     → 디바이스 상태 변경
       4) get_log.js           → 디바이스 로그 조회
+
+
 
 
 
