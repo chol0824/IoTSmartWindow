@@ -28,7 +28,9 @@ IoT 디바이스: Arduino MKR WiFi 1010
   → 미세먼지 농도가 나쁨이거나 적정 온도가 아니라면(너무 춥거나 더우면) 창문을 자동으로 닫습니다.
 
 
-
+<div>
+	<img src="https://user-images.githubusercontent.com/74773561/101654678-21143a80-3a84-11eb-8eaa-e3e98e02ee87.jpg">
+</div>
 
 
 <IoT 백엔드 - AWS 서비스>
